@@ -89,7 +89,14 @@ terraform apply \
 **Note:** Takes ~20 minutes to complete.
 
 
-## 4. Import Cloud SQL- SQL Server sample database
+## 4. Download and import Cloud SQL- SQL Server sample database
+
+### 4.1 Download AdventureWorks sample database
+
+cd ~/core-tf/database
+curl -LJO https://github.com/Microsoft/sql-server-samples/releases/download/adventureworks/AdventureWorks2022.bak
+
+### 4.2 Import sample database to Cloud SQL 
 
 Run the commands in ~/core-tf/scripts/2-cloudsql.sh in Cloud Shell
 

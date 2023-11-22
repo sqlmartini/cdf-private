@@ -34,4 +34,4 @@ override.tf.json
 terraform.rc
 
 # SQL Server database backup due to file size
-.bak
+*.bak
