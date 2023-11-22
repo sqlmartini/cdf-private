@@ -19,11 +19,11 @@ git clone https://github.com/sqlmartini/cdf-cloudsql-private.git
 The Terraform in this section updates organization policies and enables Google APIs.<br>
 
 1. Configure project you want to deploy to by running the following in Cloud Shell
+
 ```
 export PROJECT_ID="enter your project id here"
-
-gcloud config set project ${PROJECT_ID}
-gcloud auth application-default set-quota-project ${PROJECT_ID}
+cd ~/cdf-cloudsql-private/core-tf/scripts
+source 1-config.sh
 ```
 
 2. Paste this in Cloud Shell
@@ -93,24 +93,47 @@ terraform apply \
 
 ### 4.1 Download AdventureWorks sample database
 
-cd ~/core-tf/database
+```
+cd ~/cdf-cloudsql-private/core-tf/database
 curl -LJO https://github.com/Microsoft/sql-server-samples/releases/download/adventureworks/AdventureWorks2022.bak
+```
 
 ### 4.2 Import sample database to Cloud SQL 
 
-Run the commands in ~/core-tf/scripts/2-cloudsql.sh in Cloud Shell
+```
+cd ~/cdf-cloudsql-private/core-tf/scripts
+source 2-cloudsql.sh
+```
 
 ## 5. Modify CDF compute profile, pipeline, and deploy
 
 ### 5.1. Modify compute profile
 
-Open ~/core-tf/profiles/test-computeprofile.json and modify the "serviceAccount" value to the correct project_id
+Use sed to find/replace in test-computeprofile.json to appropriately set the serviceAccount
+
+```
+cd ~/cdf-cloudsql-private/core-tf/profiles
+sed -i "s/<PROJECT_ID>/$PROJECT_ID/g" test.json
+```
 
 ### 5.2. Modify pipeline
-Open ~/core-tf/pipelines/Test-cdap-data-pipeline.json and modify the "host" property to the static IP address of the cloud sql proxy VM.  You can obtain this value by running terraform outputs
+
+Use sed to find/replace in test-cdap-data-pipeline.json to appropriately set the static IP address of the cloud sql proxy VM.  You can obtain this value by running terraform outputs
+
+```
+cd ~/core-tf/pipelines
+terraform outputs
+export IP="value from outputs here"
+sed -i "s/<SQL-PROXY-IP>/$IP/g" test-pipeline.json
+```
 
 ### 5.3 Deploy
-Run the commands in ~/core-tf/scripts/3-datafusion.sh in Cloud Shell
+Run the shell script to deploy driver, compute profile, and pipeline to Cloud Data Fusion
+
+```
+cd ~/core-tf/scripts
+source 3-datafusion.sh
+```
 
 ## 6. Run the Cloud Data Fusion pipeline
 TO-DO
