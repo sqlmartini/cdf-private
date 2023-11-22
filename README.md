@@ -112,3 +112,5 @@ Open ~/core-tf/pipelines/Test-cdap-data-pipeline.json and modify the "host" prop
 ### 5.3 Deploy
 Run the commands in ~/core-tf/scripts/3-datafusion.sh in Cloud Shell
 
+## 6. Run the Cloud Data Fusion pipeline
+TO-DO
