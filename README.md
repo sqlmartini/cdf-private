@@ -25,7 +25,7 @@ The Terraform in this section updates organization policies and enables Google A
 
 ```
 export PROJECT_ID="enter your project id here"
-cd ~/repos/cdf-privatyye/core-tf/scripts
+cd ~/repos/cdf-private/core-tf/scripts
 source 1-config.sh
 ```
 
