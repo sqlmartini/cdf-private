@@ -29,7 +29,7 @@ cd ~/repos/cdf-private/core-tf/scripts
 source 1-config.sh
 ```
 
-2. Run the Terraform for organization policy edits and enabling Google APIs
+2. Run Terraform for organization policy edits and enabling Google APIs
 
 ```
 cd ~/repos/cdf-private/foundations-tf
