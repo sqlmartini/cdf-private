@@ -22,10 +22,6 @@ variable "cdf_release" {
  type        = string    
  description = "Release of Cloud Data Fusion to use"
 }
-variable "cdf_description" {
- type        = string    
- description = "Description of Cloud Data Fusion instance"
-}
 variable "gcp_region" {
  type        = string    
  description = "The GCP region you want to use"

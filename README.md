@@ -12,6 +12,9 @@ This repo demonstrates the configuration of a data ingestion process that connec
 ## 1. Clone this repo in Cloud Shell
 
 ```
+cd ~
+mkdir repos
+cd repos
 git clone https://github.com/sqlmartini/cdf-cloudsql-private.git
 ```
 
@@ -22,17 +25,14 @@ The Terraform in this section updates organization policies and enables Google A
 
 ```
 export PROJECT_ID="enter your project id here"
-cd ~/cdf-cloudsql-private/core-tf/scripts
+cd ~/repos/cdf-privatyye/core-tf/scripts
 source 1-config.sh
 ```
 
-2. Paste this in Cloud Shell
-```
-cd ~/cdf-cloudsql-private/foundations-tf
-```
+2. Run the Terraform for organization policy edits and enabling Google APIs
 
-3. Run the Terraform for organization policy edits and enabling Google APIs
 ```
+cd ~/repos/cdf-private/foundations-tf
 terraform init
 terraform apply \
   -var="project_id=${PROJECT_ID}" \
@@ -40,8 +40,6 @@ terraform apply \
 ```
 
 **Note:** Wait till the provisioning completes (~5 minutes) before moving to the next section.
-
-<hr>
 
 ## 3. Core resource provisioning automation with Terraform 
 
@@ -60,10 +58,7 @@ In this section, we will provision:
 1. Paste this in Cloud Shell after editing the GCP region variable to match your nearest region-
 
 ```
-cd ~/cdf-cloudsql-private/core-tf
-```
-
-```
+cd ~/repos/cdf-private/core-tf
 PROJECT_NBR=`gcloud projects describe $PROJECT_ID | grep projectNumber | cut -d':' -f2 |  tr -d "'" | xargs`
 GCP_ACCOUNT_NAME=`gcloud auth list --filter=status:ACTIVE --format="value(account)"`
 GCP_REGION="us-central1"
@@ -73,6 +68,7 @@ CDF_RELEASE="6.9.2"
 ```
 
 2. Run the Terraform for provisioning the rest of the environment
+
 ```
 terraform init
 terraform apply \
@@ -80,28 +76,27 @@ terraform apply \
   -var="project_number=${PROJECT_NBR}" \
   -var="gcp_account_name=${GCP_ACCOUNT_NAME}" \
   -var="gcp_region=${GCP_REGION}" \
-  -var="cdf_name=${CDF_NAME} \
-  -var="cdf_version=${CDF_VERSION} \
-  -var="cdf_release=${CDF_RELEASE} \
-  -auto-approve >> dpgce-core-tf.output
+  -var="cdf_name=${CDF_NAME}" \
+  -var="cdf_version=${CDF_VERSION}" \
+  -var="cdf_release=${CDF_RELEASE}" \
+  -auto-approve
 ```
 
 **Note:** Takes ~20 minutes to complete.
-
 
 ## 4. Download and import Cloud SQL- SQL Server sample database
 
 ### 4.1 Download AdventureWorks sample database
 
 ```
-cd ~/cdf-cloudsql-private/core-tf/database
+cd ~/repos/cdf-private/core-tf/database
 curl -LJO https://github.com/Microsoft/sql-server-samples/releases/download/adventureworks/AdventureWorks2022.bak
 ```
 
 ### 4.2 Import sample database to Cloud SQL 
 
 ```
-cd ~/cdf-cloudsql-private/core-tf/scripts
+cd ~/repos/cdf-private/core-tf/scripts
 source 2-cloudsql.sh
 ```
 
@@ -112,7 +107,7 @@ source 2-cloudsql.sh
 Use sed to find/replace in test-computeprofile.json to appropriately set the serviceAccount
 
 ```
-cd ~/cdf-cloudsql-private/core-tf/profiles
+cd ~/repos/cdf-private/core-tf/profiles
 sed -i "s/<PROJECT_ID>/$PROJECT_ID/g" test.json
 ```
 
@@ -121,7 +116,7 @@ sed -i "s/<PROJECT_ID>/$PROJECT_ID/g" test.json
 Use sed to find/replace in test-cdap-data-pipeline.json to appropriately set the static IP address of the cloud sql proxy VM.  You can obtain this value by running terraform outputs
 
 ```
-cd ~/core-tf/pipelines
+cd ~/repos/cdf-private/core-tf/pipelines
 terraform outputs
 export IP="value from outputs here"
 sed -i "s/<SQL-PROXY-IP>/$IP/g" test-pipeline.json
@@ -131,7 +126,7 @@ sed -i "s/<SQL-PROXY-IP>/$IP/g" test-pipeline.json
 Run the shell script to deploy driver, compute profile, and pipeline to Cloud Data Fusion
 
 ```
-cd ~/core-tf/scripts
+cd ~/repos/cdf-private/core-tf/scripts
 source 3-datafusion.sh
 ```
 
