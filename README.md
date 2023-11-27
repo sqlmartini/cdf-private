@@ -133,4 +133,4 @@ source 3-datafusion.sh
 ```
 
 ## 6. Run the Cloud Data Fusion pipeline
-TO-DO
+TO-DO create instructions to do this or call by API
