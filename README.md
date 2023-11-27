@@ -109,7 +109,7 @@ Use sed to find/replace in test-computeprofile.json to appropriately set the ser
 
 ```
 cd ~/repos/cdf-private/core-tf/profiles
-sed -i "s/<PROJECT_ID>/$PROJECT_ID/g" test.json
+sed -i "s/<PROJECT_ID>/$PROJECT_ID/g" test-computeprofile.json
 ```
 
 ### 5.2. Modify pipeline
