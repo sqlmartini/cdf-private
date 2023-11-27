@@ -22,6 +22,7 @@ cdf_release                 = "${var.cdf_release}"
 bq_datamart_ds              = "adventureworks"
 CDF_GMSA_FQN                = "serviceAccount:service-${local.project_nbr}@gcp-sa-datafusion.iam.gserviceaccount.com"
 GCE_GMSA_FQN                = "${local.project_nbr}-compute@developer.gserviceaccount.com"
+cloudsql_bucket_nm          = "${local.project_id}-cloudsql-backup"
 }
 
 /******************************************
@@ -329,7 +330,18 @@ module "sql-db_mssql" {
   depends_on = [module.sql-db_private_service_access]
 }
 
+#Storage bucket for SQL Server backup file
+resource "google_storage_bucket" "cloudsql_bucket_creation" {
+  project                           = local.project_id 
+  name                              = local.cloudsql_bucket_nm
+  location                          = local.location
+  uniform_bucket_level_access       = true
+  force_destroy                     = true
+  depends_on = [module.sql-db_private_service_access]
+}
+
 #Grant Cloud SQL service account access to import backup from cloud storage
+
 module "cloudsql_role_grants_storage" {
   source                  = "terraform-google-modules/iam/google//modules/member_iam"
   service_account_address = module.sql-db_mssql.instance_service_account_email_address
@@ -338,6 +350,13 @@ module "cloudsql_role_grants_storage" {
   project_roles = [
     "roles/storage.objectViewer"
   ]
+  depends_on = [module.sql-db_mssql]
+}
+
+resource "google_storage_bucket_iam_member" "member" {
+  bucket = google_storage_bucket.cloudsql_bucket_creation.name
+  role   = "roles/storage.objectAdmin"
+  member = "serviceAccount:${module.sql-db_mssql.instance_service_account_email_address}"
   depends_on = [module.sql-db_mssql]
 }
 

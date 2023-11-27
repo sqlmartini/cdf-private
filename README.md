@@ -89,6 +89,7 @@ terraform apply \
 ### 4.1 Download AdventureWorks sample database
 
 ```
+mkdir ~/repos/cdf-private/core-tf/database
 cd ~/repos/cdf-private/core-tf/database
 curl -LJO https://github.com/Microsoft/sql-server-samples/releases/download/adventureworks/AdventureWorks2022.bak
 ```
