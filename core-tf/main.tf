@@ -81,6 +81,14 @@ resource "google_project_iam_binding" "gmsa_role_grants_cdf2" {
   ]
 }
 
+resource "google_project_iam_binding" "gmsa_role_grants_cdf3" {
+  project = local.project_id
+  role    = "roles/cloudsql.client"
+  members = [
+    "${local.CDF_GMSA_FQN}"
+  ]
+}
+
 /******************************************************
 3. Service Account Impersonation Grants to Admin User
  ******************************************************/
@@ -325,7 +333,7 @@ module "sql-db_mssql" {
     "authorized_networks": [],
     "ipv4_enabled": true,
     "private_network": module.vpc_creation.network_id,
-    "require_ssl": true
+    "require_ssl": null
     }
   depends_on = [module.sql-db_private_service_access]
 }
