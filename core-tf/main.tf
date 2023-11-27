@@ -341,18 +341,6 @@ resource "google_storage_bucket" "cloudsql_bucket_creation" {
 }
 
 #Grant Cloud SQL service account access to import backup from cloud storage
-
-module "cloudsql_role_grants_storage" {
-  source                  = "terraform-google-modules/iam/google//modules/member_iam"
-  service_account_address = module.sql-db_mssql.instance_service_account_email_address
-  prefix                  = "serviceAccount"
-  project_id              = local.project_id
-  project_roles = [
-    "roles/storage.objectViewer"
-  ]
-  depends_on = [module.sql-db_mssql]
-}
-
 resource "google_storage_bucket_iam_member" "member" {
   bucket = google_storage_bucket.cloudsql_bucket_creation.name
   role   = "roles/storage.objectAdmin"
