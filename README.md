@@ -114,13 +114,19 @@ sed -i "s/<PROJECT_ID>/$PROJECT_ID/g" test-computeprofile.json
 
 ### 5.2. Modify pipeline
 
-Use sed to find/replace in test-cdap-data-pipeline.json to appropriately set the static IP address of the cloud sql proxy VM.  You can obtain this value by running terraform outputs
+Use sed to find/replace in test-cdap-data-pipeline.json to appropriately set the static IP address of the cloud sql proxy VM.  You can obtain this value by running terraform output
+
+```
+cd ~/repos/cdf-private/core-tf/
+terraform output
+```
+
+Copy sql_proxy_ip and use in variable
 
 ```
 cd ~/repos/cdf-private/core-tf/pipelines
-terraform outputs
 export IP="value from outputs here"
-sed -i "s/<SQL-PROXY-IP>/$IP/g" test-pipeline.json
+sed -i "s/<SQL-PROXY-IP>/$IP/g" test-cdap-data-pipeline.json
 ```
 
 ### 5.3 Deploy
