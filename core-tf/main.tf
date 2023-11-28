@@ -55,7 +55,8 @@ module "umsa_role_grants" {
     "roles/bigquery.dataEditor",
     "roles/bigquery.admin",
     "roles/datafusion.runner",
-    "roles/iam.serviceAccountUser"
+    "roles/iam.serviceAccountUser",
+    "roles/cloudsql.client"
   ]
   depends_on = [module.umsa_creation]
 }
@@ -405,6 +406,7 @@ resource "google_compute_instance" "sql-proxy" {
     network_ip = tolist(module.sql_proxy_address.addresses)[0] 
   }
   service_account {
+    email  = local.umsa_fqn
     scopes = ["cloud-platform"]
   }
   scheduling {
