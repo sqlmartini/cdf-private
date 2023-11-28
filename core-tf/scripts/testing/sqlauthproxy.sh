@@ -7,5 +7,5 @@ chmod +x cloud-sql-proxy
 
 ./cloud-sql-proxy --address 0.0.0.0 --port 1433 --private-ip cdf-private-sql1:us-central1:cdf-private-sql1
 
-sqlcmd -S 127.0.0.1 -U sqlserver -C
-sqlcmd -S 10.2.0.3 -U sqlserver -C
+sqlcmd -S 10.2.0.2 -U sqlserver -C -P P@ssword@111
+sqlcmd -S 10.2.0.5 -U sqlserver -C -P P@ssword@111

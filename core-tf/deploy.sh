@@ -2,7 +2,7 @@
 git clone https://github.com/sqlmartini/cdf-private.git
 
 #Configure project you want to deploy to
-export PROJECT_ID="enter your project id here"
+export PROJECT_ID="cdf-private-sql2"
 cd ~/repos/cdf-private/core-tf/scripts
 source 1-config.sh
 

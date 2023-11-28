@@ -14,9 +14,9 @@ echo $CDAP_ENDPOINT
 
 #post driver
 curl -X POST -H "Authorization: Bearer ${AUTH_TOKEN}" "${CDAP_ENDPOINT}/v3/namespaces/default/artifacts/sqlserver" \
--H "Artifact-Plugins: [{ "name": "sqlserver", "type": "jdbc", "className": "com.microsoft.sqlserver.jdbc.SQLServerDriver" }]" \
--H "Artifact-Version: 42" \
---data-binary @../drivers/sqljdbc42.jar
+-H "Artifact-Plugins: [{ "name": "sqlserver12.4", "type": "jdbc", "className": "com.microsoft.sqlserver.jdbc.SQLServerDriver" }]" \
+-H "Artifact-Version: 12.4.0" \
+--data-binary @../drivers/mssql-jdbc-12.4.0.jre8.jar
 
 #post compute profile
 curl -X PUT -H "Authorization: Bearer ${AUTH_TOKEN}" "${CDAP_ENDPOINT}/v3/namespaces/default/profiles/test" -d @../profiles/test-computeprofile.json
