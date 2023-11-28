@@ -51,7 +51,7 @@
                         "trustServerCertificate": "true",
                         "packetSize": "-1",
                         "schema": "{\"type\":\"record\",\"name\":\"outputSchema\",\"fields\":[{\"name\":\"SalesOrderID\",\"type\":\"int\"},{\"name\":\"SalesOrderDetailID\",\"type\":\"int\"},{\"name\":\"OrderQty\",\"type\":\"int\"},{\"name\":\"ProductID\",\"type\":\"int\"},{\"name\":\"SpecialOfferID\",\"type\":\"int\"},{\"name\":\"UnitPrice\",\"type\":{\"type\":\"bytes\",\"logicalType\":\"decimal\",\"precision\":19,\"scale\":4}},{\"name\":\"UnitPriceDiscount\",\"type\":{\"type\":\"bytes\",\"logicalType\":\"decimal\",\"precision\":19,\"scale\":4}},{\"name\":\"LineTotal\",\"type\":{\"type\":\"bytes\",\"logicalType\":\"decimal\",\"precision\":38,\"scale\":6}},{\"name\":\"rowguid\",\"type\":\"string\"},{\"name\":\"ModifiedDate\",\"type\":{\"type\":\"string\",\"logicalType\":\"datetime\"}}]}",
-                        "host": "<SQL-PROXY-IP>",
+                        "host": "10.2.0.2",
                         "port": "1433",
                         "authenticationType": "SQL Login",
                         "fetchSize": "1000",

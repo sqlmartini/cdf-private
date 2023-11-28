@@ -404,6 +404,7 @@ resource "google_compute_instance" "sql-proxy" {
     subnetwork = local.compute_subnet_nm    
     subnetwork_project = local.project_id
     network_ip = tolist(module.sql_proxy_address.addresses)[0] 
+    access_config {}
   }
   service_account {
     email  = local.umsa_fqn
