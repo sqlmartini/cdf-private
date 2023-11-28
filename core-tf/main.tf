@@ -334,7 +334,7 @@ module "sql-db_mssql" {
     "authorized_networks": [],
     "ipv4_enabled": true,
     "private_network": module.vpc_creation.network_id,
-    "require_ssl": null
+    "require_ssl": true
     }
   depends_on = [module.sql-db_private_service_access]
 }
