@@ -1,14 +1,12 @@
-export PROJECT=cdf-private-sql2
-export REGION=us-central1
-export ZONE=`gcloud compute zones list --filter="name=${REGION}" --limit 1 --uri --project=${PROJECT}| sed 's/.*\///'`
+export ZONE=`gcloud compute zones list --filter="name=${REGION}" --limit 1 --uri --project=${PROJECT_ID}| sed 's/.*\///'`
 export NETWORK=vpc-main
 export SUBNET=compute-snet
 export INSTANCE_NAME=sql-proxy-test
-export SQL_CONN="${PROJECT}:${REGION}:${PROJECT}"
-export VM_IMAGE=$(gcloud compute images list --project=${PROJECT} | grep cos-stable | awk 'FNR == 1 {print $1}')
+export SQL_CONN="${PROJECT_ID}:${REGION}:${PROJECT_ID}"
+export VM_IMAGE=$(gcloud compute images list --project=${PROJECT_ID} | grep cos-stable | awk 'FNR == 1 {print $1}')
 export SQL_PORT=1433 # MySQL 3306 # PostgreSQL 5432 # SQLServer 1433
 
-gcloud compute --project=${PROJECT} instances create ${INSTANCE_NAME} \
+gcloud compute --project=${PROJECT_ID} instances create ${INSTANCE_NAME} \
 --zone=${ZONE} \
 --machine-type=g1-small \
 --subnet=${SUBNET} \
@@ -17,4 +15,4 @@ gcloud compute --project=${PROJECT} instances create ${INSTANCE_NAME} \
 --scopes=https://www.googleapis.com/auth/cloud-platform \
 --image=${VM_IMAGE} \
 --image-project=cos-cloud \
---service-account="cdf-lab-sa@${PROJECT}.iam.gserviceaccount.com"
+--service-account="cdf-lab-sa@${PROJECT_ID}.iam.gserviceaccount.com"
