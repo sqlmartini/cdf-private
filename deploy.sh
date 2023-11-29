@@ -1,5 +1,5 @@
 #Configure project you want to deploy to
-export PROJECT_ID="cdf-private-sql3"
+export PROJECT_ID="cdf-amm"
 cd ~/repos/cdf-private/core-tf/scripts
 source 1-config.sh
 

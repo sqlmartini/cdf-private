@@ -374,7 +374,8 @@ resource "google_compute_firewall" "allow_private_cdf" {
   }
   description        = "Creates firewall rule to allow ingress from private CDF from port 22 and 1433 (SQL Server)"
   depends_on = [
-    google_compute_global_address.private_ip_alloc
+    google_compute_global_address.private_ip_alloc,
+    google_data_fusion_instance.create_instance
   ]
 }
 
@@ -386,7 +387,10 @@ module "sql_proxy_address" {
   region     = local.location
   subnetwork = local.compute_subnet_nm
   names      = ["sql-proxy-ip"]
-  depends_on = [module.vpc_creation]
+  depends_on = [
+    module.vpc_creation,
+    google_data_fusion_instance.create_instance
+  ]
 }
 
 #Create SQL proxy VM
