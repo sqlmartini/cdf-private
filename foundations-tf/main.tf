@@ -181,6 +181,12 @@ resource "google_project_service" "enable_cloudresourcemanager_google_apis" {
   disable_dependent_services = true
 }
 
+resource "google_project_service" "enable_dataform_google_apis" {
+  project = var.project_id
+  service = "dataform.googleapis.com"
+  disable_dependent_services = true
+}
+
 /*******************************************
 Introducing sleep to minimize errors from
 dependencies having not completed
@@ -204,6 +210,7 @@ resource "time_sleep" "sleep_after_api_enabling" {
     google_project_service.enable_datafusion_google_apis,
     google_project_service.enable_cloudsql_google_apis,
     google_project_service.enable_servicenetworking_google_apis,
-    google_project_service.enable_cloudresourcemanager_google_apis
+    google_project_service.enable_cloudresourcemanager_google_apis,
+    google_project_service.enable_dataform_google_apis
   ]
 }
