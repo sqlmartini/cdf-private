@@ -413,7 +413,9 @@ resource "google_compute_instance" "sql-proxy" {
   scheduling {
     on_host_maintenance = "MIGRATE"
   }
-  metadata_startup_script = "docker run -d -p 0.0.0.0:1433:1433 gcr.io/cloudsql-docker/gce-proxy:latest /cloud_sql_proxy -instances=${local.project_id}:${local.location}:${local.project_id}=tcp:0.0.0.0:1433"
+  metadata = {
+    startup-script = "docker run -d -p 0.0.0.0:1433:1433 gcr.io/cloudsql-docker/gce-proxy:latest /cloud_sql_proxy -instances=${local.project_id}:${local.location}:${local.project_id}=tcp:0.0.0.0:1433"
+  }
   depends_on = [module.sql_proxy_address]
 }
 
