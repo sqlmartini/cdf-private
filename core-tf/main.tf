@@ -66,7 +66,7 @@ module "umsa_role_grants" {
 Service Account for Cloud Data Fusion
  *****************************************/
 
-resource "google_project_iam_binding" "gmsa_role_grants_cdf" {
+resource "google_project_iam_binding" "gmsa_role_grants_serviceagent" {
   project = local.project_id
   role    = "roles/datafusion.serviceAgent"
   members = [
@@ -74,7 +74,7 @@ resource "google_project_iam_binding" "gmsa_role_grants_cdf" {
   ]
 }
 
-resource "google_project_iam_binding" "gmsa_role_grants_cdf2" {
+resource "google_project_iam_binding" "gmsa_role_grants_serviceaccountuser" {
   project = local.project_id
   role    = "roles/iam.serviceAccountUser"
   members = [
@@ -82,9 +82,17 @@ resource "google_project_iam_binding" "gmsa_role_grants_cdf2" {
   ]
 }
 
-resource "google_project_iam_binding" "gmsa_role_grants_cdf3" {
+resource "google_project_iam_binding" "gmsa_role_grants_cloudsqlclient" {
   project = local.project_id
   role    = "roles/cloudsql.client"
+  members = [
+    "${local.CDF_GMSA_FQN}"
+  ]
+}
+
+resource "google_project_iam_binding" "gmsa_role_grants_datalineageproducer" {
+  project = local.project_id
+  role    = "roles/datalineage.producer"
   members = [
     "${local.CDF_GMSA_FQN}"
   ]
@@ -176,7 +184,10 @@ resource "time_sleep" "sleep_after_identities_permissions" {
     module.umsa_role_grants,
     module.umsa_impersonate_privs_to_admin,
     module.administrator_role_grants,
-    google_project_iam_binding.gmsa_role_grants_cdf
+    google_project_iam_binding.gmsa_role_grants_serviceagent,
+    google_project_iam_binding.gmsa_role_grants_serviceaccountuser,
+    google_project_iam_binding.gmsa_role_grants_cloudsqlclient,
+    google_project_iam_binding.gmsa_role_grants_datalineageproducer
   ]
 }
 
@@ -232,10 +243,7 @@ resource "google_compute_firewall" "allow_intra_snet_ingress_to_any" {
     protocol = "all"
   }
   description        = "Creates firewall rule to allow ingress from within Spark subnet on all ports, all protocols"
-  depends_on = [
-    module.vpc_creation, 
-    module.administrator_role_grants
-  ]
+  depends_on = [module.vpc_creation]
 }
 
 /******************************************
