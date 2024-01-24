@@ -64,7 +64,7 @@ GCP_ACCOUNT_NAME=`gcloud auth list --filter=status:ACTIVE --format="value(accoun
 GCP_REGION="us-central1"
 CDF_NAME="cdf1"
 CDF_VERSION="BASIC"
-CDF_RELEASE="6.9.2"
+CDF_RELEASE="6.10.0"
 ```
 
 2. Run the Terraform for provisioning the rest of the environment
