@@ -23,6 +23,7 @@ bq_datamart_ds              = "adventureworks"
 CDF_GMSA_FQN                = "serviceAccount:service-${local.project_nbr}@gcp-sa-datafusion.iam.gserviceaccount.com"
 GCE_GMSA_FQN                = "${local.project_nbr}-compute@developer.gserviceaccount.com"
 cloudsql_bucket_nm          = "${local.project_id}-cloudsql-backup"
+s8s_data_and_code_bucket    = "s8s_data_and_code_bucket-${local.project_nbr}"
 }
 
 /******************************************
@@ -434,6 +435,35 @@ resource "google_compute_instance" "sql-proxy" {
 #Output static IP for JDBC connection
 output "sql_proxy_ip" {
   value = tolist(module.sql_proxy_address.addresses)[0]
+}
+
+/******************************************
+11. Spark Code Bucket Creation
+******************************************/
+
+resource "google_storage_bucket" "s8s_data_and_code_bucket_creation" {
+  name                              = local.s8s_data_and_code_bucket
+  project                           = local.project_id 
+  location                          = local.location
+  uniform_bucket_level_access       = true
+  force_destroy                     = true
+  depends_on = [ time_sleep.sleep_after_network_and_firewall_creation ]
+}
+
+resource "google_storage_bucket_object" "pyspark_scripts_upload_to_gcs" {
+  for_each = fileset("../scripts/pyspark/", "*")
+  source = "../scripts/pyspark/${each.value}"
+  name = "scripts/pyspark/${each.value}"
+  bucket = "${local.s8s_data_and_code_bucket}"
+  depends_on = [ google_storage_bucket.s8s_data_and_code_bucket_creation ]
+}
+
+resource "google_storage_bucket_object" "pyspark_jars_upload_to_gcs" {
+  for_each = fileset("../drivers/", "*")
+  source = "../drivers/${each.value}"
+  name = "drivers/${each.value}"
+  bucket = "${local.s8s_data_and_code_bucket}"
+  depends_on = [ google_storage_bucket.s8s_data_and_code_bucket_creation ]
 }
 
 /******************************************

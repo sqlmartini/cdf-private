@@ -58,7 +58,7 @@ In this section, we will provision:
 1. Paste this in Cloud Shell after editing the GCP region variable to match your nearest region-
 
 ```
-cd ~/repos/cdf-private/core-tf
+cd ~/repos/cdf-private/core-tf/terraform
 PROJECT_NBR=`gcloud projects describe $PROJECT_ID | grep projectNumber | cut -d':' -f2 |  tr -d "'" | xargs`
 GCP_ACCOUNT_NAME=`gcloud auth list --filter=status:ACTIVE --format="value(account)"`
 GCP_REGION="us-central1"

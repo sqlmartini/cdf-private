@@ -35,7 +35,7 @@
                     "label": "SQL Server",
                     "artifact": {
                         "name": "mssql-plugin",
-                        "version": "1.10.2",
+                        "version": "1.11.0",
                         "scope": "SYSTEM"
                     },
                     "properties": {
@@ -95,7 +95,7 @@
                     "label": "BigQuery",
                     "artifact": {
                         "name": "google-cloud",
-                        "version": "0.22.2",
+                        "version": "0.23.0",
                         "scope": "SYSTEM"
                     },
                     "properties": {
