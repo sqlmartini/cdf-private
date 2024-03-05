@@ -11,3 +11,4 @@ VALUES
   ('Sales.SalesTerritory', 'SalesTerritory'),
   ('Production.Product', 'Product'),
   ('Production.ProductCategory', 'ProductCategory')
+  ('Production.ProductSubcategory', 'ProductSubcategory')
