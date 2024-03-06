@@ -45,7 +45,7 @@ cd ~/repos/cdf-private/core-tf/profiles
 sed -i "s/<PROJECT_ID>/$PROJECT_ID/g" test-computeprofile.json
 
 #Modify pipeline
-cd ~/repos/cdf-private/core-tf/
+cd ~/repos/cdf-private/core-tf/terraform
 IP=$(terraform output -json | jq -r '.sql_proxy_ip.value')
 
 cd ~/repos/cdf-private/core-tf/pipelines
